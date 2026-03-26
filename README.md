@@ -1,8 +1,7 @@
 # bg-test-data
 
-[![PyPI version](https://img.shields.io/pypi/v/bg-test-data)](https://pypi.org/project/bg-test-data/)
-[![Python versions](https://img.shields.io/pypi/pyversions/bg-test-data)](https://pypi.org/project/bg-test-data/)
 [![CI](https://github.com/Nikolay-Chillev/bg-test-data/actions/workflows/ci.yml/badge.svg)](https://github.com/Nikolay-Chillev/bg-test-data/actions/workflows/ci.yml)
+[![PyPI](https://badge.fury.io/py/bg-test-data.svg)](https://pypi.org/project/bg-test-data/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Comprehensive Bulgarian test data generator with **valid checksums**. Generate realistic EGN (national ID), EIK (company ID), IBAN, names, addresses, phone numbers, persons, and companies -- all with mathematically correct check digits.
