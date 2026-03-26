@@ -120,7 +120,7 @@ bg-test-data phone --type mobile
 bg-test-data name --gender male
 
 # Generate an address
-bg-test-data address --city Sofia
+bg-test-data address
 ```
 
 ## Data Types
