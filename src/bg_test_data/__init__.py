@@ -1,6 +1,6 @@
 """bg-test-data: Comprehensive Bulgarian test data generator with valid checksums."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from bg_test_data.address import generate_address, list_oblasts
 from bg_test_data.company import generate_company
