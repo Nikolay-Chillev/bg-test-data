@@ -3,7 +3,7 @@
 from typing import Any
 
 from bg_test_data._random import SeededRandom
-from bg_test_data.address import generate_address
+from bg_test_data.address import generate_address, list_oblasts
 from bg_test_data.company import generate_company
 from bg_test_data.egn import generate_egn, parse_egn, validate_egn
 from bg_test_data.eik import generate_eik, validate_eik
@@ -51,8 +51,12 @@ class BgTestData:
         return generate_name(self._rng, **kwargs)
 
     def address(self, **kwargs: Any) -> dict[str, str]:
-        """Generate a Bulgarian address. Options: city, oblast."""
+        """Generate a Bulgarian address. Options: city, oblast, oblast_code."""
         return generate_address(self._rng, **kwargs)
+
+    def oblasts(self) -> list[dict[str, str]]:
+        """Return all 28 oblasts with name and ISO 3166-2 code."""
+        return list_oblasts()
 
     def person(self, **kwargs: Any) -> dict[str, Any]:
         """Generate a complete Bulgarian person. Options: gender, min_age, max_age."""

@@ -1,6 +1,7 @@
 """Bulgarian address generator."""
 
 from bg_test_data._data.cities import CITIES
+from bg_test_data._data.oblasts import OBLAST_CODES
 from bg_test_data._data.streets import DEFAULT_STREETS, STREETS
 from bg_test_data._random import SeededRandom
 
@@ -10,17 +11,25 @@ def generate_address(
     *,
     city: str | None = None,
     oblast: str | None = None,
+    oblast_code: str | None = None,
 ) -> dict[str, str]:
     """Generate a Bulgarian postal address.
 
     Args:
         rng: Seeded random instance.
         city: Specific city name. Random if None.
-        oblast: Filter cities by oblast. Ignored if city is specified.
+        oblast: Filter cities by oblast name. Ignored if city is specified.
+        oblast_code: Filter cities by ISO 3166-2 oblast code, e.g. "BG-22".
+            Ignored if city is specified; cannot be combined with oblast.
 
     Returns:
-        Dict with street, number, city, postal_code, oblast, full_address.
+        Dict with street, number, city, postal_code, oblast, oblast_code, full_address.
     """
+    if oblast_code is not None:
+        if oblast is not None:
+            raise ValueError("Pass either oblast or oblast_code, not both")
+        oblast = _oblast_name(oblast_code)
+
     # Select city
     city_data = _select_city(rng, city=city, oblast=oblast)
 
@@ -49,8 +58,29 @@ def generate_address(
         "city": city_name,
         "postal_code": postal_code,
         "oblast": oblast_name,
+        "oblast_code": OBLAST_CODES[oblast_name],
         "full_address": full_address,
     }
+
+
+def list_oblasts() -> list[dict[str, str]]:
+    """Return all 28 oblasts as dicts with name and ISO 3166-2 code, ordered by code."""
+    return [
+        {"name": name, "code": code}
+        for name, code in sorted(OBLAST_CODES.items(), key=lambda item: item[1])
+    ]
+
+
+def _oblast_name(oblast_code: str) -> str:
+    """Return the oblast name for an ISO 3166-2 code.
+
+    Raises:
+        ValueError: If the code is not a Bulgarian oblast code.
+    """
+    for name, code in OBLAST_CODES.items():
+        if code == oblast_code:
+            return name
+    raise ValueError(f"Oblast code not found: {oblast_code!r}")
 
 
 def _select_city(

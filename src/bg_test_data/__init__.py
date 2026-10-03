@@ -2,7 +2,7 @@
 
 __version__ = "0.1.0"
 
-from bg_test_data.address import generate_address
+from bg_test_data.address import generate_address, list_oblasts
 from bg_test_data.company import generate_company
 from bg_test_data.egn import generate_egn, parse_egn, validate_egn
 from bg_test_data.eik import generate_eik, validate_eik
@@ -17,6 +17,7 @@ __all__ = [
     "__version__",
     "BgTestData",
     "generate_address",
+    "list_oblasts",
     "generate_company",
     "generate_egn",
     "generate_eik",
