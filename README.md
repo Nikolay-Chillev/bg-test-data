@@ -12,7 +12,7 @@ Comprehensive Bulgarian test data generator with **valid checksums**. Generate r
 - **EIK/BULSTAT** -- valid 9- or 13-digit company identification numbers
 - **IBAN** -- valid Bulgarian IBANs (BG prefix, real bank codes, correct mod-97 check digits)
 - **Names** -- authentic Bulgarian first, middle, and last names in Cyrillic
-- **Addresses** -- realistic Bulgarian addresses with city, street, and postal code
+- **Addresses** -- realistic Bulgarian addresses with city, street, postal code, oblast and its ISO 3166-2 code
 - **Phone numbers** -- Bulgarian mobile and landline numbers
 - **Persons** -- complete person records combining EGN, name, address, phone, and IBAN
 - **Companies** -- complete company records with EIK, name, address, phone, and IBAN
@@ -46,7 +46,8 @@ person = bg.person()
 #   "phone": "+359 88 123 4567",
 #   "email": "georgi.petrov@gmail.com",
 #   "address": {"street": "Витоша", "number": "15", "city": "София",
-#               "postal_code": "1000", "oblast": "София-град", "full_address": "..."}
+#               "postal_code": "1000", "oblast": "София-град", "oblast_code": "BG-22",
+#               "full_address": "..."}
 # }
 
 # Generate a company
@@ -66,6 +67,20 @@ phone = bg.phone(phone_type="mobile")
 name = bg.name(gender="male")
 address = bg.address()
 ```
+
+### Oblasts and ISO 3166-2 codes
+
+E-commerce platforms such as Magento identify Bulgarian regions by their ISO 3166-2 code, not by the Bulgarian name. Every address includes `oblast_code`, and you can filter by it:
+
+```python
+bg.address(oblast_code="BG-02")
+# {"city": "Бургас", "oblast": "Бургас", "oblast_code": "BG-02", ...}
+
+bg.oblasts()
+# [{"name": "Благоевград", "code": "BG-01"}, ..., {"name": "Ямбол", "code": "BG-28"}]
+```
+
+Note that `"София"` is Sofia Province (`BG-23`); the capital is `"София-град"` (`BG-22`).
 
 ### Batch Generation
 
@@ -120,6 +135,9 @@ bg-test-data name --gender male
 
 # Generate an address
 bg-test-data address
+
+# Generate an address in Sofia City
+bg-test-data address --oblast-code BG-22
 ```
 
 ## Data Types
@@ -130,7 +148,7 @@ bg-test-data address
 | **EIK** | 9- or 13-digit company ID with valid checksum | `831650349` |
 | **IBAN** | Bulgarian IBAN with valid mod-97 check | `BG80BNBG96611020345678` |
 | **Name** | First, middle, and last name in Cyrillic | `Георги Иванов Петров` |
-| **Address** | City, street, postal code | `София, ул. Витоша 15, 1000` |
+| **Address** | City, street, postal code, oblast and ISO 3166-2 code | `София, ул. Витоша 15, 1000` (`BG-22`) |
 | **Phone** | Mobile or landline number | `+359 88 123 4567` |
 | **Person** | Full person record (EGN + name + address + phone + IBAN) | see above |
 | **Company** | Full company record (EIK + name + address + phone + IBAN) | see above |
@@ -146,7 +164,8 @@ bg-test-data address
 | `iban(**kwargs)` | `str` | Generate a valid Bulgarian IBAN |
 | `phone(**kwargs)` | `str` | Generate a phone number. Options: `phone_type` |
 | `name(**kwargs)` | `dict` | Generate a name. Options: `gender` |
-| `address(**kwargs)` | `dict` | Generate an address. Options: `city` |
+| `address(**kwargs)` | `dict` | Generate an address. Options: `city`, `oblast`, `oblast_code` |
+| `oblasts()` | `list[dict]` | All 28 oblasts with `name` and ISO 3166-2 `code` |
 | `person(**kwargs)` | `dict` | Generate a full person. Options: `gender`, `min_age`, `max_age` |
 | `company(**kwargs)` | `dict` | Generate a full company. Options: `eik_length` |
 | `persons(count, **kwargs)` | `list[dict]` | Generate multiple persons |
