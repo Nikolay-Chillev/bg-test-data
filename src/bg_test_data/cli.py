@@ -27,7 +27,7 @@ _COMMANDS: dict[str, tuple[str, list[str]]] = {
     "iban": ("iban", []),
     "phone": ("phone", ["phone_type"]),
     "name": ("name", ["gender"]),
-    "address": ("address", ["city"]),
+    "address": ("address", ["city", "oblast_code"]),
 }
 
 
@@ -83,6 +83,9 @@ def main(argv: list[str] | None = None) -> None:
     # address
     p_address = subparsers.add_parser("address", help="Generate an address.")
     p_address.add_argument("--city", default=None)
+    p_address.add_argument(
+        "--oblast-code", default=None, help="ISO 3166-2 oblast code, e.g. BG-22."
+    )
 
     args = parser.parse_args(argv)
 
