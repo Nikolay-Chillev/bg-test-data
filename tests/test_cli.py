@@ -101,6 +101,14 @@ class TestCli:
         assert "street" in data
 
     @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("CLI 'address --oblast-code' filters by oblast")
+    def test_cli_address_oblast_code(self) -> None:
+        output = self._run(["--seed", "42", "address", "--oblast-code", "BG-02"])
+        data = json.loads(output)
+        assert data["oblast_code"] == "BG-02"
+        assert data["oblast"] == "Бургас"
+
+    @allure.severity(allure.severity_level.NORMAL)
     @allure.title("CLI 'company' command outputs company dict")
     def test_cli_company(self) -> None:
         output = self._run(["--seed", "42", "company"])
