@@ -10,6 +10,7 @@ from bg_test_data.egn import Gender
 _VOWELS = set("аеиоуъюяАЕИОУЪЮЯ")
 # Soft consonants that take -ев/-ева instead of -ов/-ова
 _SOFT_CONSONANTS = set("йЙьЬ")
+_GENDERS: tuple[Gender, ...] = ("male", "female")
 
 
 def generate_name(
@@ -27,7 +28,10 @@ def generate_name(
         Dict with first_name, middle_name, last_name, full_name, gender.
     """
     if gender is None:
-        gender = rng.choice(["male", "female"])
+        # Assigned through a new variable: assigning to `gender` directly makes mypy
+        # infer the declared `Gender | None` as the result type and keep the None.
+        picked = rng.choice(_GENDERS)
+        gender = picked
 
     # Pick first name based on gender
     if gender == "male":
